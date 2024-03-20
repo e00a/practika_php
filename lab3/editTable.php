@@ -1,63 +1,39 @@
-<?php
-echo "<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Table</title>
-    <link rel=\"stylesheet\" href=\"style.css\">
+    <title>Подтверждение удаления товара</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>";
+<body>
 
-require_once 'connection.php';
-$connObj = new mysqli($host, $user, $password, $database);
-if ($connObj->connect_error) {
-    echo "Ошибка соединения с базой данных: " . $connObj->connect_error;
-}
+<h1>Вы уверены, что хотите удалить этот товар?</h1>
 
-echo "<h1>Удалить этот товар?</h1>";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['confirm'])) {
-        if ($_POST['confirm'] == 'delete') {
-            $game_id = $_GET['id'];
-
-            $sql = "DELETE FROM games WHERE idGame = 3";
-
-            if ($connObj->query($sql) === TRUE) {
-                echo "Товар успешно удален. Информация: " . $connObj->info;
-            } else {
-                echo "Ошибка при удалении товара: " . $connObj->error;
-            }
-        } elseif ($_POST['confirm'] == 'cancel') {
-            header("Location: showTableGames.php");
-            exit();
-        }
-    }
-}
-
-echo "<form method=\"post\" action=\"editTable.php\">
-    <input type=\"hidden\" name=\"id\" value=\"" . $_Get['id'] . "\">
-    <button type=\"submit\" name=\"confirm\" value=\"delete\">Да</button>
+<form method="post" action="saveTable.php">
+    <input type="hidden" name="id" value="<?php echo $_POST['id']; ?>">
+    <button type="submit" name="confirm" value="yes">Да</button>
 </form>
-<form method=\"post\" action=\"editTable.php\">
-    <button type=\"submit\" name=\"confirm\" value=\"cancel\">Нет</button>
+
+<form method="post" action="showTableGames.php">
+    <button type="submit" name="confirm" value="no">Нет</button>
 </form>
-<br>";
 
-echo "<form method=\"post\" action=\"saveTable.php\">
-    <label for=\"name\">Название:</label>
-    <input type=\"text\" id=\"name\" name=\"name\"><br><br>
+<br>
+
+<form method="post" action="saveTable.php">
     
-    <label for=\"description\">Описание:</label>
-    <input type=\"text\" id=\"description\" name=\"description\"><br><br>
+        <label for="name">Название:</label>
+        <input type="text" id="name" name="name"><br><br>
+        
+        <label for="description">Описание:</label>
+        <input type="text" id="description" name="description"><br><br>
 
-    <label for=\"category\">Категория:</label>
-    <input type=\"text\" id=\"category\" name=\"category\"><br><br>
+        <label for="category">Категория:</label>
+        <input type="text" id="category" name="category"><br><br>
 
-    <label for=\"price\">Цена:</label>
-    <input type=\"text\" id=\"price\" name=\"price\"><br><br>
-    
-    <button type=\"submit\" name=\"confirm\" value=\"save\">Сохранить</button>
-</form>";
-
-echo "</body></html>";
-?>
+        <label for="price">Цена:</label>
+        <input type="text" id="price" name="price"><br><br>
+        
+        <button type="submit" name="confirm" value="save">Сохранить</button>
+    </form>
+</body>
+</html>
