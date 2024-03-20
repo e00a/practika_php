@@ -53,11 +53,11 @@ echo "<form method=\"get\" action=\"showTableGames.php\" id=\"gameForm\">
     <button type=\"submit\" name=\"filter\" value=\"no\"><a class=\"btn\" href=\"http://localhost/lab3/showTableGames.php?sortBy=$sortBy&name=&description=&price=\">Очистить</a></button>
 </form>";
 
-//table
 echo "<form method='post' action='editTable.php'>
 <button name='ins' type='submit'>Добавить</button>
 </form>";
 
+//table
 if ($result->num_rows > 0) {
     echo "<table class=\"table\">";
     echo "<tr><th><a href=\"showTableGames.php?sortBy=name\">Name</a></th>
@@ -70,9 +70,9 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row["name"] . "</td>";
         echo "<td>" . $row["description"] . "</td>";
         echo "<td>" . number_format($row["price"], 2) . "</td>";
-        echo "<td><form method='post' action='editTable.php'>
+        echo "<td><form method='get' action='editTable.php'>
         <input type='hidden' name='id' value='" . $row["idGame"] . "'>
-        <button type='submit' name='delete'>Удалить</button>
+        <button type='submit' >Удалить</button>
         </form></td>";
         echo "</tr>";
     }
