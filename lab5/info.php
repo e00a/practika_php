@@ -1,5 +1,5 @@
 <?php
-include 'header.php';
+require_once 'header.php';
 echo "<main><div class=\"wrapper\">";
 if (isset($_GET['game_id']) && !empty($_GET['game_id'])) {
     $game_id = $_GET['game_id'];
@@ -20,25 +20,27 @@ if (isset($_GET['game_id']) && !empty($_GET['game_id'])) {
         echo "<p>" . $game['description'] . "</p><br>";
         echo "<h4 style='font-weight: lighter; font-size: 20px;'>Price: $" . number_format($game['price'], 2) . "</h4>";
         
-        echo "<form method='post'>";
-        echo "<input type='hidden' name='game_id' value='$game_id'>";
-
-        $stmtCheckCart = $pdo->prepare("SELECT COUNT(*) as count FROM cart WHERE idGame = :game_id");
-        $stmtCheckCart->bindParam(':game_id', $game_id);
-        $stmtCheckCart->execute();
-        $result = $stmtCheckCart->fetch(PDO::FETCH_ASSOC);
-
-        $is_in_cart = $result['count'] > 0;
-
-        if ($is_in_cart) {
-            echo "<button type='button' disabled>Товар в корзине</button>";
-        } else {
+        if (isset($_POST['add_to_cart'])) {
             $stmtCart = $pdo->prepare("INSERT INTO cart (idGame) VALUES (:game_id)");
             $stmtCart->bindParam(':game_id', $game_id);
             $stmtCart->execute();
-            echo "<button type='submit' name='add_to_cart'>Добавить в корзину</button>";
+            echo "<p>Игра добавлена</p>";
+        } else {
+            echo "<form method='post'>";
+            echo "<input type='hidden' name='game_id' value='$game_id'>";
+            $stmtCheckCart = $pdo->prepare("SELECT COUNT(*) as count FROM cart WHERE idGame = :game_id");
+            $stmtCheckCart->bindParam(':game_id', $game_id);
+            $stmtCheckCart->execute();
+            $result = $stmtCheckCart->fetch(PDO::FETCH_ASSOC);
+            $is_in_cart = $result['count'] > 0;
+        
+            if ($is_in_cart) {
+                echo "<button type='button' disabled>Товар в корзине</button>";
+            } else {
+                echo "<button type='submit' name='add_to_cart'>Добавить в корзину</button>";
+            }
+            echo "</form>";
         }
-        echo "</form>";
 
         echo "</div>";
         echo "</div>";

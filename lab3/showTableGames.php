@@ -54,8 +54,8 @@ echo "<form method=\"get\" action=\"showTableGames.php\" id=\"gameForm\">
 </form>";
 
 //table
-echo "<form method='post' action='editTable.php'>
-<button name='ins' type='submit'>Добавить</button>
+echo "<form method='get' action='editTable.php'>
+<button type='submit' name='ins' value='true'>Добавить</button>
 </form>";
 
 if ($result->num_rows > 0) {
@@ -70,9 +70,9 @@ if ($result->num_rows > 0) {
         echo "<td>" . $row["name"] . "</td>";
         echo "<td>" . $row["description"] . "</td>";
         echo "<td>" . number_format($row["price"], 2) . "</td>";
-        echo "<td><form method='post' action='editTable.php'>
+        echo "<td><form method='get' action='editTable.php'>
         <input type='hidden' name='id' value='" . $row["idGame"] . "'>
-        <button type='submit' name='delete'>Удалить</button>
+        <button type='submit' name='delete' value='true'>Удалить</button>
         </form></td>";
         echo "</tr>";
     }
@@ -83,8 +83,7 @@ if ($result->num_rows > 0) {
 }
 $connObj->close();
 
-echo "</body>
-</html>";
+echo "</body></html>";
 ?>
 
 
